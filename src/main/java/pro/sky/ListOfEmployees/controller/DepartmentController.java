@@ -1,15 +1,15 @@
 package pro.sky.ListOfEmployees.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pro.sky.ListOfEmployees.model.Employee;
 import pro.sky.ListOfEmployees.service.DepartmentService;
 
+
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
 
 @RequestMapping("/departments")
 @RestController
@@ -32,12 +32,14 @@ public class DepartmentController {
     }
 
     @GetMapping("all")
-    public List<Employee> getAllEmployeesByDepartment(@RequestParam int departmentId) {
-        return departmentService.getAllEmployeesByDepartment(departmentId);
+    public Object getAll(@RequestParam Optional<Integer> departmentId) {
+        if (departmentId.isEmpty()) {
+            return departmentService.getAllEmployeesGropedByDepartment();
+        } else {
+            return departmentService.getAllEmployeesByDepartment(departmentId.get());
+        }
     }
 
-    @GetMapping("all-grouped")
-    public Map<Integer, List<Employee>> getAllEmployeesGropedByDepartment() {
-        return departmentService.getAllEmployeesGropedByDepartment();
-    }
+
 }
+

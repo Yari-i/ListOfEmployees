@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
@@ -29,6 +31,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .orElse(null);
 
     }
+
     @Override
     public Employee getEmployeeWithMinSalary(int departmentId) {
         return employeeService.getAll()
@@ -38,6 +41,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .min(Comparator.comparingInt(Employee::getSalary))
                 .orElse(null);
     }
+
     @Override
     public List<Employee> getAllEmployeesByDepartment(int departmentId) {
         return employeeService.getAll()
@@ -45,7 +49,10 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .stream()
                 .filter(employee -> employee.getDepartmentId() == departmentId)
                 .toList();
+
+
     }
+
     @Override
     public Map<Integer, List<Employee>> getAllEmployeesGropedByDepartment() {
         return employeeService.getAll()
