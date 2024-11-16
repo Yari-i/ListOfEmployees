@@ -22,17 +22,15 @@ public class EmployeeController {
 
     @GetMapping("/add")
     public ResponseEntity<Employee> add(@RequestParam String firstName,
-                        @RequestParam String lastName,
-                        @RequestParam int salary,
-                        @RequestParam int departmentId)
-    {
+                                        @RequestParam String lastName,
+                                        @RequestParam int salary,
+                                        @RequestParam int departmentId) {
         if (!StringUtils.isAlpha(firstName) || !StringUtils.isAlpha(lastName)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
         return ResponseEntity.ok(employeeService.add(firstName, lastName, salary, departmentId));
     }
-
 
 
     @GetMapping("/remove")
