@@ -22,6 +22,7 @@ public class Employee {
         this.departmentId = departmentId;
     }
 
+
     public int getDepartmentId() {
         return departmentId;
     }

@@ -29,6 +29,7 @@ public class EmployeeController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
+
         return ResponseEntity.ok(employeeService.add(firstName, lastName, salary, departmentId));
     }
 
