@@ -1,5 +1,8 @@
 package pro.sky.ListOfEmployees.controller;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.ListOfEmployees.model.Employee;
 import pro.sky.ListOfEmployees.service.EmployeeService;
@@ -18,12 +21,19 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public Employee add(@RequestParam String firstName,
+    public ResponseEntity<Employee> add(@RequestParam String firstName,
                         @RequestParam String lastName,
                         @RequestParam int salary,
-                        @RequestParam int departmentId) {
-        return employeeService.add(firstName, lastName, salary, departmentId);
+                        @RequestParam int departmentId)
+    {
+        if (!StringUtils.isAlpha(firstName) || !StringUtils.isAlpha(lastName)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        return ResponseEntity.ok(employeeService.add(firstName, lastName, salary, departmentId));
     }
+
+
 
     @GetMapping("/remove")
     public Employee delete(@RequestParam String firstName, @RequestParam String lastName) {
