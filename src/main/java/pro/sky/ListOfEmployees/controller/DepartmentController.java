@@ -5,10 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import pro.sky.ListOfEmployees.model.Employee;
 import pro.sky.ListOfEmployees.service.DepartmentService;
 
-
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.Map;
+
 
 
 @RequestMapping("/departments")
@@ -21,23 +20,30 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @GetMapping("max-salary")
-    public Employee getEmployeeWithMaxSalary(@RequestParam int departmentId) {
+    @GetMapping("{departmentId}/employees")
+    public List<Employee> getAllEmployeesByDepartment(@PathVariable int departmentId) {
+        return departmentService.getAllEmployeesByDepartment(departmentId);
+    }
+
+
+    @GetMapping("{departmentId}/salary/sum")
+    public int getEmployeeSalarySum(@PathVariable int departmentId) {
+        return departmentService.getEmployeeSalarySum(departmentId);
+    }
+
+    @GetMapping("{departmentId}/salary/max")
+    public Employee getEmployeeWithMaxSalary(@PathVariable int departmentId) {
         return departmentService.getEmployeeWithMaxSalary(departmentId);
     }
 
-    @GetMapping("min-salary")
-    public Employee getEmployeeWithMinSalary(@RequestParam int departmentId) {
+    @GetMapping("{departmentId}/salary/min")
+    public Employee getEmployeeWithMinSalary(@PathVariable int departmentId) {
         return departmentService.getEmployeeWithMinSalary(departmentId);
     }
 
-    @GetMapping("all")
-    public Object getAll(@RequestParam Optional<Integer> departmentId) {
-        if (departmentId.isEmpty()) {
-            return departmentService.getAllEmployeesGropedByDepartment();
-        } else {
-            return departmentService.getAllEmployeesByDepartment(departmentId.get());
-        }
+    @GetMapping("employees")
+    public Map<Integer, List<Employee>> getAllEmployeesGropedByDepartment() {
+        return departmentService.getAllEmployeesGropedByDepartment();
     }
 
 

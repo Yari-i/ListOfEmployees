@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -19,6 +18,16 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     public DepartmentServiceImpl(EmployeeService employeeService) {
         this.employeeService = employeeService;
+    }
+
+    @Override
+    public int getEmployeeSalarySum(int departmentId) {
+        return employeeService.getAll()
+                .values()
+                .stream()
+                .filter(employee -> employee.getDepartmentId() == departmentId)
+                .mapToInt(Employee::getSalary)
+                .sum();
     }
 
     @Override
@@ -60,4 +69,5 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .stream()
                 .collect(Collectors.groupingBy(Employee::getDepartmentId));
     }
+
 }
